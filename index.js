@@ -1,15 +1,11 @@
 const express = require("express");
-
+var http = require('http');
 const app = express();
 app.set("view engine", 'html');
 app.set("views", "./views");
-app.get("/", (req, res) =>res.sendFile("views/index.html", {"root": __dirname}));
-var server = require("http").Server(app);
-var io = require("socket.io")(server);
-server.listen(3000);
-io.on("connection", function(socket){
-    console.log("co nguoi ket noi" + socket.id);
-    socket.on("disconnect", function () {
-        console.log("ngat ket noi" + socket.id);
-    })
-});
+http.createServer(function (req, res) {
+  res.sendFile("views/index.html", {"root": __dirname})
+  res.writeHead(200, {'Content-Type': 'text/plain'});
+  res.end('Welcome Node.js');
+}).listen(3000, "35.186.156.219");
+console.log('Server running at http://127.0.0.1:3001/');
