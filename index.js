@@ -1,11 +1,24 @@
-const express = require("express");
-var http = require('http');
-const app = express();
-app.set("view engine", 'html');
-app.set("views", "./views");
-http.createServer(function (req, res) {
-  res.sendFile("views/index.html", {"root": __dirname})
-  res.writeHead(200, {'Content-Type': 'text/plain'});
-  res.end('Welcome Node.js');
-}).listen(3000, "35.186.156.219");
-console.log('Server running at http://127.0.0.1:3001/');
+var express = require("express");
+var bodyParser = require("body-parser");
+var app = express();
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+var server = app.listen(3000, function () {
+    console.log("app running on port.", server.address().port);
+});
+
+app.get("/", function (req, res) {
+  res.status(200).send({ message: 'Welcome to our restful API' });
+});
+
+app.get("/user", function (req, res) {
+  var data = ({
+    firstName: faker.name.firstName(),
+    lastName: faker.name.lastName(),
+    username: faker.internet.userName(),
+    email: faker.internet.email()
+  });
+  res.status(200).send(data);
+});
