@@ -1,0 +1,32 @@
+<html>
+    <head>
+        <title>
+            Live stream
+        </title>
+    </head>
+    <script src="socket.io/socket.io.js">
+    </script>
+    <script>
+        var socket = io("http://35.186.156.219:3000");
+    </script>
+    <body>
+        <video id="localStream" width="500" controls>
+
+        </video>
+    </body>
+<script>
+
+    var constraints = { audio: true, video: { width: 1280, height: 720 } }; 
+
+navigator.mediaDevices.getUserMedia(constraints)
+.then(function(mediaStream) {
+  var video = document.querySelector('video');
+  video.srcObject = mediaStream;
+  video.onloadedmetadata = function(e) {
+    video.play();
+  };
+})
+.catch(function(err) { console.log(err.name + ": " + err.message); });
+
+</script>
+</html>
